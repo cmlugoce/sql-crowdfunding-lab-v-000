@@ -12,7 +12,12 @@ end
 
 def selects_the_user_name_age_and_pledge_amount_for_all_pledges_alphabetized_by_name
 _have_met_their_funding_goal
-"SELECT users.name, users.age, SUM(pledges.amount) FROM users JOIN pledges ON users.id = pledges.user_id GROUP BY users.name;"
+"SELECT title, SUM(amount) - funding_goal AS amount_over_goal
+  FROM projects
+  JOIN pledges
+  ON projects.id = pledges.project_id
+  GROUP BY title
+  HAVING amount_over_goal > -1"
 end
 
 def selects_the_titles_and_amount_over_goal_of_all_projects_that
